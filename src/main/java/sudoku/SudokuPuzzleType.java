@@ -1,27 +1,30 @@
 package sudoku;
 
 public enum SudokuPuzzleType {
-	SIXBYSIX(6,6,3,2, new String[] {"1","2","3","4","5","6"},"6 By 6 Game"),
-	NINEBYNINE(9,9,3,3,new String[] {"1","2","3","4","5","6","7","8","9"},"9 By 9 Game"),
-	TWELVEBYTWELVE(12,12,4,3,new String[] {"1","2","3","4","5","6","7","8","9","A","B","C"},"12 By 12 Game"),
-	SIXTEENBYSIXTEEN(16,16,4,4, new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G"},"16 By 16 Game");
-	
+
+	EASY(9,9,3,3, 0.5, new String[] {"1","2","3","4","5","6","7","8","9"},"EASY"),
+	MEDIUM(9,9,3,3, 0.4, new String[] {"1","2","3","4","5","6","7","8","9"},"MEDIUM"),
+	HARD(9,9,3,3, 0.3, new String[] {"1","2","3","4","5","6","7","8","9"},"HARD"),
+	EXPERT(9,9,3,3, 0.2222, new String[] {"1","2","3","4","5","6","7","8","9"},"EXPERT");
 	private final int rows;
 	private final int columns;
 	private final int boxWidth;
 	private final int boxHeight;
+
+	private final double cluePercentage;
 	private final String [] validValues;
 	private final String desc;
-	private SudokuPuzzleType(int rows,int columns,int boxWidth,int boxHeight,String [] validValues,String desc) {
+	private SudokuPuzzleType(int rows, int columns, int boxWidth, int boxHeight, double cluePercentage, String [] validValues, String desc) {
 		this.rows = rows;
 		this.columns = columns;
 		this.boxWidth = boxWidth;
 		this.boxHeight = boxHeight;
+		this.cluePercentage = cluePercentage;
 		this.validValues = validValues;
 		this.desc = desc;
 
 	}
-	
+
 	public int getRows() {
 		return rows;
 	}
@@ -44,5 +47,8 @@ public enum SudokuPuzzleType {
 	
 	public String toString() {
 		return desc;
+	}
+	public double getCluePercentage() {
+		return cluePercentage;
 	}
 }

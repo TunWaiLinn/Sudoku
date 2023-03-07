@@ -19,7 +19,6 @@ public class SudokuPuzzle {
 		this.BOXWIDTH = boxWidth;
 		this.BOXHEIGHT = boxHeight;
 		this.VALIDVALUES = validValues;
-		System.out.println(Arrays.toString(VALIDVALUES));
 		this.board = new String[ROWS][COLUMNS];
 		this.mutable = new boolean[ROWS][COLUMNS];
 		initializeBoard();

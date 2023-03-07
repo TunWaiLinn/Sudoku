@@ -28,12 +28,12 @@ public class SudokuPanel extends JPanel {
 	public SudokuPanel() {
 		this.setPreferredSize(new Dimension(540,450));
 		this.addMouseListener(new SudokuPanelMouseAdapter());
-		this.puzzle = new SudokuGenerator().generateRandomSudoku(SudokuPuzzleType.NINEBYNINE);
+		this.puzzle = new SudokuGenerator().generateRandomSudoku(SudokuPuzzleType.EASY);
 		currentlySelectedCol = -1;
 		currentlySelectedRow = -1;
 		usedWidth = 0;
 		usedHeight = 0;
-		fontSize = 26;
+		fontSize = 30;
 	}
 	
 	
@@ -45,7 +45,7 @@ public class SudokuPanel extends JPanel {
 		currentlySelectedRow = -1;
 		usedWidth = 0;
 		usedHeight = 0;
-		fontSize = 26;
+		fontSize = 30;
 	}
 	
 	public void newSudokuPuzzle(SudokuPuzzle puzzle) {
@@ -96,7 +96,7 @@ public class SudokuPanel extends JPanel {
 		//this will draw the bottom line
 		//g2d.drawLine(0, usedHeight - 1, usedWidth, usedHeight - 1);
 		
-		Font f = new Font("Times New Roman", Font.PLAIN, fontSize);
+		Font f = new Font("Mulish", Font.PLAIN, fontSize);
 		g2d.setFont(f);
 		FontRenderContext fContext = g2d.getFontRenderContext();
 		for(int row=0;row < puzzle.getNumRows();row++) {
@@ -127,7 +127,11 @@ public class SudokuPanel extends JPanel {
 			messageFromNumActionListener(((JButton) e.getSource()).getText());	
 		}
 	}
-	
+
+	public SudokuPuzzle getPuzzle() {
+		return puzzle;
+	}
+
 	private class SudokuPanelMouseAdapter extends MouseInputAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {

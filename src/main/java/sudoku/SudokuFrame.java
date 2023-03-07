@@ -5,44 +5,38 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 @SuppressWarnings("serial")
-public class SudokuFrame extends JFrame {
+public class SudokuFrame extends JFrame implements ActionListener{
 
 	private JPanel buttonSelectionPanel;
 	private SudokuPanel sPanel;
+	JButton solve = new JButton("Reveal answer");
 	
 	public SudokuFrame() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Sudoku");
-		this.setMinimumSize(new Dimension(800,600));
+		this.setMinimumSize(new Dimension(800,700));
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu file = new JMenu("Game");
 		JMenu newGame = new JMenu("New Game");
-		JMenuItem sixBySixGame = new JMenuItem("6 By 6 Game");
-		sixBySixGame.addActionListener(new NewGameListener(SudokuPuzzleType.SIXBYSIX,30));
-		JMenuItem nineByNineGame = new JMenuItem("9 By 9 Game");
-		nineByNineGame.addActionListener(new NewGameListener(SudokuPuzzleType.NINEBYNINE,26));
-		JMenuItem twelveByTwelveGame = new JMenuItem("12 By 12 Game");
-		twelveByTwelveGame.addActionListener(new NewGameListener(SudokuPuzzleType.TWELVEBYTWELVE,20));
-		
-		/*
-		 * need to include this when solving algorithm is improved
-		 JMenuItem sixteenBySizteenGame = new JMenuItem("16 By 16 Game");
-		sixteenBySizteenGame.addActionListener(new NewGameListener(SudokuPuzzleType.SIXTEENBYSIXTEEN,16));
-		*/
-		newGame.add(sixBySixGame);
-		newGame.add(nineByNineGame);
-		newGame.add(twelveByTwelveGame);
-		//newGame.add(sixteenBySizteenGame);
+		JMenuItem easy = new JMenuItem("Easy");
+		easy.addActionListener(new NewGameListener(SudokuPuzzleType.EASY,30));
+		JMenuItem medium = new JMenuItem("Medium");
+		medium.addActionListener(new NewGameListener(SudokuPuzzleType.MEDIUM,30));
+		JMenuItem hard = new JMenuItem("Hard");
+		hard.addActionListener(new NewGameListener(SudokuPuzzleType.HARD,30));
+		JMenuItem expert = new JMenuItem("Expert");
+		expert.addActionListener(new NewGameListener(SudokuPuzzleType.EXPERT,30));
+
+		newGame.add(easy);
+		newGame.add(medium);
+		newGame.add(hard);
+		newGame.add(expert);
+
 		file.add(newGame);
 		menuBar.add(file);
 		this.setJMenuBar(menuBar);
@@ -52,15 +46,21 @@ public class SudokuFrame extends JFrame {
 		windowPanel.setPreferredSize(new Dimension(800,600));
 		
 		buttonSelectionPanel = new JPanel();
-		buttonSelectionPanel.setPreferredSize(new Dimension(90,500));
+		buttonSelectionPanel.setPreferredSize(new Dimension(200,500));
+		Border padding = BorderFactory.createEmptyBorder(22, 0, 0, 0);
+		buttonSelectionPanel.setBorder(padding);
 
 		sPanel = new SudokuPanel();
-		
+		solve.addActionListener(this::actionPerformed);
+
 		windowPanel.add(sPanel);
 		windowPanel.add(buttonSelectionPanel);
+		windowPanel.add(solve);
 		this.add(windowPanel);
 		
-		rebuildInterface(SudokuPuzzleType.NINEBYNINE, 26);
+		rebuildInterface(SudokuPuzzleType.EASY, 26);
+
+
 	}
 	
 	public void rebuildInterface(SudokuPuzzleType puzzleType,int fontSize) {
@@ -79,7 +79,14 @@ public class SudokuFrame extends JFrame {
 		buttonSelectionPanel.revalidate();
 //		buttonSelectionPanel.repaint();
 	}
-	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == solve) {
+			SudokuGenerator.backtrackSudokuSolver(0,0,sPanel.getPuzzle());
+		}
+	}
+
 	private class NewGameListener implements ActionListener {
 
 		private SudokuPuzzleType puzzleType;
